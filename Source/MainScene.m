@@ -301,7 +301,7 @@ static const NSTimeInterval HERO_ABILITY_DURATION = 10.f;
     [coin.physicsBody applyImpulse:ccp([self randomFloatBetween:-25.f and:50.f], [self randomFloatBetween:25.f and:75.f])];
 }
 
-static const int NUMBER_OF_OBSTACLE_TYPES = 1; //4
+static const int NUMBER_OF_OBSTACLE_TYPES = 4;
 
 - (void)spawnNewMonster
 {
@@ -519,10 +519,11 @@ static const int NUMBER_OF_POWER_UP_TYPES = 5;
     if ([hero.abilityName isEqualToString:@"freezeTime"])
     {
         id scale = [CCActionScaleTo actionWithDuration:0.5f scale:0.75f];
+        __unsafe_unretained Hero *weakHero = hero;
         id callBlock = [CCActionCallBlock actionWithBlock:^{
-            _currentHero.typeNode.scale = 0.75f;
-            hero.isFreezeTime = YES;
-            [hero changeShape];
+            weakHero.typeNode.scale = 0.75f;
+            weakHero.isFreezeTime = YES;
+            [weakHero changeShape];
         }];
         [_currentHero.typeNode runAction:[CCActionSequence actions:scale, callBlock, nil]];        
     }
@@ -534,10 +535,11 @@ static const int NUMBER_OF_POWER_UP_TYPES = 5;
          ...
          */
         id scale = [CCActionScaleTo actionWithDuration:0.5f scale:2.0f];
+        __unsafe_unretained Hero *weakHero = hero;
         id callBlock = [CCActionCallBlock actionWithBlock:^{
-            _currentHero.typeNode.scale = 2.0f;
-            hero.isInvincible = YES;
-            [hero changeShape];
+            weakHero.typeNode.scale = 2.0f;
+            weakHero.isInvincible = YES;
+            [weakHero changeShape];
         }];
         [_currentHero.typeNode runAction:[CCActionSequence actions:scale, callBlock, nil]];
     }
@@ -558,20 +560,22 @@ static const int NUMBER_OF_POWER_UP_TYPES = 5;
     if ([hero.abilityName isEqualToString:@"freezeTime"])
     {
         id scale = [CCActionScaleTo actionWithDuration:0.5f scale:1.0f];
+        __unsafe_unretained Hero *weakHero = hero;
         id callBlock = [CCActionCallBlock actionWithBlock:^{
-            _currentHero.typeNode.scale = 1.0f;
-            hero.isFreezeTime = NO;
-            [hero changeShape];
+            weakHero.typeNode.scale = 1.0f;
+            weakHero.isFreezeTime = NO;
+            [weakHero changeShape];
         }];
         [_currentHero.typeNode runAction:[CCActionSequence actions:scale, callBlock, nil]];
     }
     else if ([hero.abilityName isEqualToString:@"invincible"])
     {
         id scale = [CCActionScaleTo actionWithDuration:0.5f scale:1.0f];
+        __unsafe_unretained Hero *weakHero = hero;
         id callBlock = [CCActionCallBlock actionWithBlock:^{
-            _currentHero.typeNode.scale = 1.0f;
-            hero.isInvincible = NO;
-            [hero changeShape];
+            weakHero.typeNode.scale = 1.0f;
+            weakHero.isInvincible = NO;
+            [weakHero changeShape];
         }];
         [_currentHero.typeNode runAction:[CCActionSequence actions:scale, callBlock, nil]];
     }
@@ -633,9 +637,10 @@ static const int NUMBER_OF_POWER_UP_TYPES = 5;
     _heroShouldDash = YES;
     id fadeOut = [CCActionFadeOut actionWithDuration:1.f];
     id fadeIn = [CCActionFadeIn actionWithDuration:1.f];
+    __unsafe_unretained Hero *weakCurrentHero = _currentHero;
     id callBlock = [CCActionCallBlock actionWithBlock:^{
-        _currentHero.typeNode.scale = 0.38f;
-        CCAnimationManager *animationManager = _currentHero.typeNode.animationManager;
+        weakCurrentHero.typeNode.scale = 0.38f;
+        CCAnimationManager *animationManager = weakCurrentHero.typeNode.animationManager;
         [animationManager runAnimationsForSequenceNamed:timelineName];
     }];
     id scaleBack = [CCActionScaleTo actionWithDuration:1.f scale:1.f];
@@ -654,9 +659,10 @@ static const int NUMBER_OF_POWER_UP_TYPES = 5;
     id fadeOut = [CCActionFadeOut actionWithDuration:1.f];
     id fadeIn = [CCActionFadeIn actionWithDuration:1.f];
     id scaleSmall = [CCActionScaleTo actionWithDuration:1.f scale:0.38f];
+    __unsafe_unretained Hero *weakCurrentHero = _currentHero;
     id callBlock = [CCActionCallBlock actionWithBlock:^{
-        CCAnimationManager *animationManager = _currentHero.typeNode.animationManager;
-        [animationManager runAnimationsForSequenceNamed:_currentHero.typeName];
+        CCAnimationManager *animationManager = weakCurrentHero.typeNode.animationManager;
+        [animationManager runAnimationsForSequenceNamed:weakCurrentHero.typeName];
     }];
     id scaleBack = [CCActionScaleTo actionWithDuration:1.f scale:1.f];
     [_currentHero.typeNode runAction:[CCActionSequence actions:scaleSmall, fadeOut, callBlock, fadeIn, scaleBack, nil]];
@@ -1077,8 +1083,9 @@ static const CGFloat EXPLOSION_X_OFFSET = 40.f + 20.f;
                         
                         if (fabs(currentHeroWorldPosition.x - coinWorldPosition.x) <= 30.f)
                         {
+                            __unsafe_unretained CCNode *weakCoin = coin;
                             id removeCoin = [CCActionCallBlock actionWithBlock:^{
-                                [coin removeFromParentAndCleanup:YES];
+                                [weakCoin removeFromParentAndCleanup:YES];
                                 _coins++;
                             }];
                             [coin runAction:removeCoin];
@@ -1133,8 +1140,9 @@ static const CGFloat EXPLOSION_X_OFFSET = 40.f + 20.f;
                     
                     if (fabs(currentHeroWorldPosition.x - coinWorldPosition.x) <= 30.f)
                     {
+                        __unsafe_unretained CCNode *weakCoin = coin;
                         id removeCoin = [CCActionCallBlock actionWithBlock:^{
-                            [coin removeFromParentAndCleanup:YES];
+                            [weakCoin removeFromParentAndCleanup:YES];
                             _coins++;
                         }];
                         [coin runAction:removeCoin];

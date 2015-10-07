@@ -130,6 +130,13 @@
 			<key>isSmartSpriteSheet</key>
 			<true/>
 		</dict>
+		<key>InGameElements</key>
+		<dict>
+			<key>isDirty</key>
+			<true/>
+			<key>isSmartSpriteSheet</key>
+			<true/>
+		</dict>
 		<key>Interface</key>
 		<dict>
 			<key>isSmartSpriteSheet</key>

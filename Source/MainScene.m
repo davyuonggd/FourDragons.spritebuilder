@@ -63,6 +63,7 @@
     CCButton *_restartButton;
     CCButton *_summonRandomHero;
     CCButton *_breathFireButton;
+    CCButton *_testButton;
     
     //HERO'S VARS:
     CGFloat _heroAcceleration;
@@ -621,11 +622,11 @@ static const int NUMBER_OF_POWER_UP_TYPES = 5;
     }
 }
 
-- (void)testHeroAbility
+- (void)testSomething
 {
-    [self startAbilityForHero:_currentHero];
-    coinBar.percentage = 0.f;
-    _startHeroAbilityButton.visible = NO;
+//    [self startAbilityForHero:_currentHero];
+//    coinBar.percentage = 0.f;
+//    _startHeroAbilityButton.visible = NO;
 }
 
 - (void)heroStartDashing
